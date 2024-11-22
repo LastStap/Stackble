@@ -1,5 +1,7 @@
 package dumshenko.daniil;
 
+import java.util.Optional;
+
 public class Stack implements Stackable {
     private final int maxSize;
     private final int[] stackArray;
@@ -33,6 +35,13 @@ public class Stack implements Stackable {
             throw new IllegalStateException("Стек порожній");
         }
         return stackArray[top];
+    }
+
+    public Optional<Integer> getTopOptional() {
+        if (isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(stackArray[top]);
     }
 
     @Override
