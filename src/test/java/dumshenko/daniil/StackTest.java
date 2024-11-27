@@ -18,10 +18,7 @@ class StackTest {
 
     @Test
     void shouldReturnAddedElement() {
-        //Given
-
-
-        //When
+        // When
         stack.addElementToStack(10);
         stack.addElementToStack(20);
         stack.addElementToStack(30);
@@ -31,16 +28,13 @@ class StackTest {
 
         stack.addElementToStack(50);
 
-        //Then
+        // Then
         assertTrue(stack.isFull());
     }
 
     @Test
     void shouldDeleteElementFromStack() {
-        //Given
-
-
-        //When
+        // When
         stack.addElementToStack(10);
         stack.addElementToStack(20);
         stack.addElementToStack(40);
@@ -53,15 +47,13 @@ class StackTest {
 
         int topElementAfterDeleted = stack.readTop();
 
-        //Then
+        // Then
         assertNotEquals(topElementAfterDeleted, topElement);
     }
 
     @Test
     void shouldReturnTopElement() {
-        //Given
-
-        //When
+        // When
         stack.addElementToStack(10);
         stack.addElementToStack(20);
         stack.addElementToStack(40);
@@ -70,37 +62,33 @@ class StackTest {
 
         int topElement = stack.readTop();
 
-        //Then
+        // Then
         assertEquals(60, topElement);
     }
 
     @Test
     void shouldReturnIsEmpty() {
-        //Given
-
-
-        //When
+        // When
         assertTrue(stack.isEmpty());
 
-        //Then
+        // Then
         stack.addElementToStack(10);
         assertFalse(stack.isEmpty());
     }
 
     @Test
     void shouldReturnIsFull() {
-        //Given
+        // Given
         stack.addElementToStack(10);
         stack.addElementToStack(20);
         stack.addElementToStack(30);
         stack.addElementToStack(40);
         stack.addElementToStack(50);
 
-
-        //When
+        // When
         assertTrue(stack.isFull());
 
-        //Then
+        // Then
         stack.deleteElementFromStack();
         assertFalse(stack.isFull());
     }
@@ -125,5 +113,33 @@ class StackTest {
         stack.deleteElementFromStack();
         Optional<Integer> emptyElement = stack.getTopOptional();
         assertTrue(emptyElement.isEmpty());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAddingToFullStack() {
+        // Given
+        stack.addElementToStack(10);
+        stack.addElementToStack(20);
+        stack.addElementToStack(30);
+        stack.addElementToStack(40);
+        stack.addElementToStack(50);
+
+        // When & Then
+        Exception exception = assertThrows(IllegalStateException.class, () -> stack.addElementToStack(60));
+        assertEquals("Стек переповнений", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDeletingFromEmptyStack() {
+        // When & Then
+        Exception exception = assertThrows(IllegalStateException.class, stack::deleteElementFromStack);
+        assertEquals("Стек порожній", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenReadingTopOfEmptyStack() {
+        // When & Then
+        Exception exception = assertThrows(IllegalStateException.class, stack::readTop);
+        assertEquals("Стек порожній", exception.getMessage());
     }
 }
